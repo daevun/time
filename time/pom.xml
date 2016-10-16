@@ -70,6 +70,8 @@
 	<modules>
 		<module>time_user</module>
 		<module>time_amendment</module>
+		<module>time_report</module>
+		<module>time_record</module>
 	</modules>
 	<build>
 		<plugins>
