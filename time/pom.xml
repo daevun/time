@@ -7,13 +7,6 @@
 	<packaging>pom</packaging>
 	<name>Time</name>
 	<description>Campus 02 IWI16 IEG Project</description>
-	<modules>
-		<module>time_base</module>
-		<module>time_user</module>
-		<module>time_amendment</module>
-		<module>time_report</module>
-		<module>time_record</module>
-	</modules>
 	<repositories>
 		<repository>
 			<id>prime-repo</id>
