@@ -1,4 +1,3 @@
-before_script: cd time
 language: java
 jdk:
   - oraclejdk8
