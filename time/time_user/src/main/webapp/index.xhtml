@@ -6,6 +6,25 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <body>
 	<h2>Time User</h2>
+
+	<h:form>
+		<h:panelGrid columns="3">
+			<h:outputLabel for="oid">Oid</h:outputLabel>
+			<h:inputText id="oid" value="#{userBean.oid}" required="true"></h:inputText>
+			<h:message for="oid" />
+			
+			<h:outputLabel for="oid">Name</h:outputLabel>
+			<h:inputText id="name" value="#{userBean.name}"></h:inputText>
+			<h:message for="name" />
+			
+			<h:outputLabel for="oid">Surname</h:outputLabel>
+			<h:inputText id="surname" value="#{userBean.surname}"></h:inputText>
+			<h:message for="surname" />
+		</h:panelGrid>
+
+		<h:commandButton action="#{userBean.createUser}" value="Create User"></h:commandButton>
+	</h:form>
+
 </body>
 
 </html>
