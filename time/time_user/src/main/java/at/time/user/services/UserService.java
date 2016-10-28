@@ -8,10 +8,12 @@ import at.time.user.model.User;
 
 public class UserService {
 
+	private final RabbitManager rabbit;
 	private UserDao dao;
 
 	public UserService() {
 		setDao(new UserDao());
+		rabbit = RabbitManager.getInstance();
 	}
 
 	public User createUser() {
@@ -20,7 +22,7 @@ public class UserService {
 
 	public void saveUser(final User user) {
 		dao.saveUser(user);
-		RabbitManager.getInstance().publishMessage(new Gson().toJson(user));
+		rabbit.publishMessage(new Gson().toJson(user));
 	}
 
 	public User getUserByOid(final String oid) {
