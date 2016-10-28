@@ -3,19 +3,22 @@ package at.time.base.rabbit;
 public final class RabbitConstants {
 
 	// Connection
-	public static String HOST = "localhost";
-	public static int PORT = 5672;
+	public static final String HOST = "localhost";
+	public static final int PORT = 5672;
 
 	// Exchange Types
-	public static String DIRECT = "direct";
-	public static String FANOUT = "fanout";
+	public static final String DIRECT = "direct";
+	public static final String FANOUT = "fanout";
 
 	// Exchanges
-	public static String TIME_EXCHANGE = "timeExchange";
+	public static final String TIME_EXCHANGE = "timeExchange";
 
 	// Queues
-	public static String REPORT_QUEUE = "reportQueue";
-	public static String RECORD_QUEUE = "recordQueue";
-	public static String AMENDMENT_QUEUE = "amendmentQueue";
+	public static final String REPORT_QUEUE = "reportQueue";
+	public static final String RECORD_QUEUE = "recordQueue";
+	public static final String AMENDMENT_QUEUE = "amendmentQueue";
+
+	// Content Types
+	public static final String CT_USER = "user";
 
 }

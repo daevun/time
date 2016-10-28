@@ -1,6 +1,12 @@
 package at.time.user.model;
 
-public class User {
+import at.time.base.rabbit.Publishable;
+import at.time.base.rabbit.RabbitConstants;
+
+/**
+ * User Model for User Project
+ */
+public class User implements Publishable {
 
 	private String oid;
 
@@ -35,6 +41,11 @@ public class User {
 	@Override
 	public String toString() {
 		return String.format("User: %s %s %s", getOid(), getName(), getSurname());
+	}
+
+	@Override
+	public String getContentType() {
+		return RabbitConstants.CT_USER;
 	}
 
 }

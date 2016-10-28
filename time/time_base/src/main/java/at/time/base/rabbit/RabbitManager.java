@@ -18,14 +18,15 @@ public class RabbitManager {
 	private Connection connection;
 	private Channel channel;
 
-	public void publishMessage(final String message) {
+	public void publish(final Publishable publishable) {
 		final Channel channel = getChannel();
 		final AMQP.BasicProperties.Builder basicProperties = new AMQP.BasicProperties.Builder();
 		basicProperties.contentType("user");
 		try {
-			channel.basicPublish(RabbitConstants.TIME_EXCHANGE, "", basicProperties.build(), message.getBytes());
+			channel.basicPublish(RabbitConstants.TIME_EXCHANGE, "", basicProperties.build(),
+					publishable.toGson().getBytes());
 		} catch (final IOException e) {
-			logger.error("Fehler beim Verschicken der Nachricht: ", message);
+			logger.error("Fehler beim Verschicken der Nachricht: ", publishable.toGson());
 		}
 	}
 
