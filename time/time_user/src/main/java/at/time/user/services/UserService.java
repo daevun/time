@@ -8,12 +8,12 @@ import at.time.user.model.User;
 
 public class UserService {
 
-	private final RabbitManager rabbit;
+	private RabbitManager rabbit;
 	private UserDao dao;
 
 	public UserService() {
 		setDao(new UserDao());
-		rabbit = RabbitManager.getInstance();
+		setRabbit(new RabbitManager());
 	}
 
 	public User createUser() {
@@ -31,6 +31,10 @@ public class UserService {
 
 	public void setDao(UserDao dao) {
 		this.dao = dao;
+	}
+
+	public void setRabbit(RabbitManager rabbit) {
+		this.rabbit = rabbit;
 	}
 
 }

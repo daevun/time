@@ -6,32 +6,24 @@ import java.util.concurrent.TimeoutException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 public class RabbitManager {
 
-	private static RabbitManager instance = null;
 	private static Logger logger = LogManager.getLogger();
 
-	private RabbitManager() {
-	}
-
-	private static Connection connection;
-	private static Channel channel;
-
-	public static RabbitManager getInstance() {
-		if (instance == null) {
-			instance = new RabbitManager();
-		}
-		return instance;
-	}
+	private Connection connection;
+	private Channel channel;
 
 	public void publishMessage(final String message) {
 		final Channel channel = getChannel();
+		final AMQP.BasicProperties.Builder basicProperties = new AMQP.BasicProperties.Builder();
+		basicProperties.contentType("user");
 		try {
-			channel.basicPublish(RabbitConstants.TIME_EXCHANGE, "", null, message.getBytes());
+			channel.basicPublish(RabbitConstants.TIME_EXCHANGE, "", basicProperties.build(), message.getBytes());
 		} catch (final IOException e) {
 			logger.error("Fehler beim Verschicken der Nachricht: ", message);
 		}
