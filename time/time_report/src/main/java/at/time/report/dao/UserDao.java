@@ -45,7 +45,6 @@ public class UserDao {
 		} catch (final SQLException e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
-
 	}
 
 }

@@ -2,10 +2,34 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
-<body>
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<h:head>
+		<title>Time Record</title>
+	</h:head>
 	<h2>Time Record</h2>
-</body>
+	<h:form>
+		<p:panelGrid columns="2">
+			<p:outputLabel for="users">User</p:outputLabel>
+			<p:selectOneMenu id="users" value="#{recordBean.user}" converter="omnifaces.SelectItemsConverter">
+				<f:selectItem itemLabel="" itemValue="" />
+				<f:selectItems value="#{recordBean.allUsers}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="begin">Begin</p:outputLabel>
+			<p:calendar id="begin" value="#{recordBean.begin}"
+				pattern="dd.MM.yyyy HH:mm" locale="de" navigator="true" />
+
+			<p:outputLabel for="end">End</p:outputLabel>
+			<p:calendar id="end" value="#{recordBean.end}"
+				pattern="dd.MM.yyyy HH:mm" locale="de" navigator="true" />
+		</p:panelGrid>
+
+		<p:commandButton action="#{recordBean.addRecord}" value="Add Record"></p:commandButton>
+	</h:form>
+
+</h:body>
 
 </html>

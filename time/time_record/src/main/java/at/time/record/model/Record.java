@@ -1,6 +1,6 @@
 package at.time.record.model;
 
-import org.joda.time.DateTime;
+import java.util.Date;
 
 import at.time.base.rabbit.Publishable;
 import at.time.base.rabbit.RabbitConstants;
@@ -12,9 +12,9 @@ public class Record implements Publishable {
 
 	private User user;
 
-	private DateTime begin;
+	private Date begin;
 
-	private DateTime end;
+	private Date end;
 
 	public User getUser() {
 		return user;
@@ -24,19 +24,19 @@ public class Record implements Publishable {
 		this.user = user;
 	}
 
-	public DateTime getBegin() {
+	public Date getBegin() {
 		return begin;
 	}
 
-	public void setBegin(DateTime begin) {
+	public void setBegin(Date begin) {
 		this.begin = begin;
 	}
 
-	public DateTime getEnd() {
+	public Date getEnd() {
 		return end;
 	}
 
-	public void setEnd(DateTime end) {
+	public void setEnd(Date end) {
 		this.end = end;
 	}
 

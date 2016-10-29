@@ -20,11 +20,13 @@ public class UserBean implements Serializable {
 	private String name;
 	private String surname;
 
+	private final UserService service = new UserService();
+
 	public String getOid() {
 		return oid;
 	}
 
-	public void setOid(String oid) {
+	public void setOid(final String oid) {
 		this.oid = oid;
 	}
 
@@ -32,7 +34,7 @@ public class UserBean implements Serializable {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -40,7 +42,7 @@ public class UserBean implements Serializable {
 		return surname;
 	}
 
-	public void setSurname(String surname) {
+	public void setSurname(final String surname) {
 		this.surname = surname;
 	}
 
@@ -49,7 +51,7 @@ public class UserBean implements Serializable {
 		user.setOid(getOid());
 		user.setName(getName());
 		user.setSurname(getSurname());
-		new UserService().saveUser(user);
+		service.saveUser(user);
 		final UIViewRoot view = FacesContext.getCurrentInstance().getViewRoot();
 		return view.getViewId() + "?faces-redirect=true";
 	}
