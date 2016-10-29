@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.gson.Gson;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
@@ -15,6 +16,8 @@ import com.rabbitmq.client.Envelope;
 
 import at.time.base.rabbit.RabbitConstants;
 import at.time.base.rabbit.RabbitManager;
+import at.time.report.dao.UserDao;
+import at.time.report.model.User;
 
 @ManagedBean(eager = true)
 @ApplicationScoped
@@ -29,17 +32,26 @@ public class ReportStartup {
 	private void startRabbitConsumer() {
 		final Channel channel = new RabbitManager().getChannel();
 		final boolean autoAck = false;
+		final UserDao userDao = new UserDao();
 		try {
 			channel.basicConsume(RabbitConstants.REPORT_QUEUE, autoAck, "myConsumerTag", new DefaultConsumer(channel) {
 				@Override
 				public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
 						byte[] body) throws IOException {
-					// final String routingKey = envelope.getRoutingKey();
-					// final String contentType = properties.getContentType();
-					final long deliveryTag = envelope.getDeliveryTag();
-					// (process the message components here ...)
+					final String contentType = properties.getContentType();
 					final String message = new String(body, "UTF-8");
-					logger.info(" [x] Received '" + message + "'");
+					switch (contentType) {
+					case RabbitConstants.CT_USER:
+						logger.info(" [x] Received '" + message + "'" + " Saving new User..");
+						userDao.saveUser(new Gson().fromJson(message, User.class));
+						break;
+					case RabbitConstants.CT_RECORD:
+						break;
+					default:
+						break;
+					}
+
+					final long deliveryTag = envelope.getDeliveryTag();
 					channel.basicAck(deliveryTag, false);
 				}
 			});

@@ -34,8 +34,7 @@ public class UserDao {
 
 	public void saveUser(final User user) {
 		try (Connection connection = dbManager.getConnection();
-				PreparedStatement ps = connection
-						.prepareStatement("INSERT INTO record.user (oid, name, surname) values(?, ?, ?)")) {
+				PreparedStatement ps = connection.prepareStatement("INSERT INTO record.user (oid) values(?)")) {
 			ps.setString(1, user.getOid());
 			ps.executeUpdate();
 		} catch (final SQLException e) {
