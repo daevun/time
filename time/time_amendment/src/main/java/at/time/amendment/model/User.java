@@ -1,7 +1,7 @@
-package at.time.report.model;
+package at.time.amendment.model;
 
 /**
- * User Model for Report Project
+ * User Model for Amendment Project
  */
 public class User {
 

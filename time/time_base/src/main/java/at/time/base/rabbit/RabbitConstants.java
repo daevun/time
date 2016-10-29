@@ -20,5 +20,6 @@ public final class RabbitConstants {
 
 	// Content Types
 	public static final String CT_USER = "user";
+	public static final String CT_RECORD = "record";
 
 }
