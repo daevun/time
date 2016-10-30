@@ -41,7 +41,7 @@ public class Record implements Publishable {
 	}
 
 	@Override
-	public String getContentType() {
+	public String contentType() {
 		return RabbitConstants.CT_RECORD;
 	}
 

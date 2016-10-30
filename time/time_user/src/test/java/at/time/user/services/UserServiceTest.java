@@ -28,15 +28,7 @@ public class UserServiceTest {
 		final User user = createUser();
 		service.saveUser(user);
 		Mockito.verify(dao).saveUser(user);
-	}
-
-	@Test
-	public void testGetByOid() {
-		final User user = createUser();
-		final String oid = user.getOid();
-		Mockito.when(dao.getByOid(oid)).thenReturn(user);
-		service.getUserByOid(oid);
-		Mockito.verify(dao).getByOid(oid);
+		Mockito.verify(rabbit).publish(user);
 	}
 
 	private User createUser() {

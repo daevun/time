@@ -23,10 +23,6 @@ public class UserService {
 		rabbit.publish(user);
 	}
 
-	public User getUserByOid(final String oid) {
-		return dao.getByOid(oid);
-	}
-
 	public void setDao(UserDao dao) {
 		this.dao = dao;
 	}

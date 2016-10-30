@@ -1,17 +1,28 @@
 package at.time.user.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import at.time.base.rabbit.Publishable;
 import at.time.base.rabbit.RabbitConstants;
 
 /**
  * User Model for User Project
  */
+@Entity
+@Table(name = "user")
 public class User implements Publishable {
 
+	@Id
+	@Column(name = "oid", unique = true, nullable = false)
 	private String oid;
 
+	@Column(name = "name", length = 45)
 	private String name;
 
+	@Column(name = "surname", length = 45)
 	private String surname;
 
 	public String getOid() {
@@ -44,7 +55,7 @@ public class User implements Publishable {
 	}
 
 	@Override
-	public String getContentType() {
+	public String contentType() {
 		return RabbitConstants.CT_USER;
 	}
 

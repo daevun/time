@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 public interface Publishable {
 
-	String getContentType();
+	String contentType();
 
 	default String toGson() {
 		return new Gson().toJson(this);
