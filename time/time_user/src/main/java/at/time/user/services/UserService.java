@@ -1,12 +1,19 @@
 package at.time.user.services;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import at.time.base.rabbit.RabbitManager;
 import at.time.user.dao.UserDao;
 import at.time.user.model.User;
 
+@Named
 public class UserService {
 
+	@Inject
 	private RabbitManager rabbit;
+
+	@Inject
 	private UserDao dao;
 
 	public UserService() {

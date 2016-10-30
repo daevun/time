@@ -32,7 +32,7 @@ public class UserServiceTest {
 	}
 
 	private User createUser() {
-		final User user = new User();
+		final User user = service.createUser();
 		user.setOid("1111");
 		user.setName("Test");
 		user.setSurname("Tester");
