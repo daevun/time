@@ -16,8 +16,8 @@ import com.rabbitmq.client.Envelope;
 
 import at.time.amendment.dao.UserDao;
 import at.time.amendment.model.User;
-import at.time.base.rabbit.RabbitConstants;
-import at.time.base.rabbit.RabbitManager;
+import at.time.amendment.rabbit.RabbitConstants;
+import at.time.amendment.rabbit.RabbitManager;
 
 @ManagedBean(eager = true)
 @ApplicationScoped

@@ -2,22 +2,26 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:p="http://primefaces.org/ui">
 <body>
+	<h:head>
+		<title>Time User</title>
+	</h:head>
 	<h2>Time User</h2>
 
 	<h:form>
 		<h:panelGrid columns="3">
-			<h:outputLabel for="oid">Oid</h:outputLabel>
-			<h:inputText id="oid" value="#{userBean.oid}" required="true"></h:inputText>
-			<h:message for="oid" />
+			<h:outputLabel for="sozVers">Sozial Vers-Nr</h:outputLabel>
+			<h:inputText id="sozVers" value="#{userBean.sozVers}" required="true"></h:inputText>
+			<h:message for="sozVers" />
 			
-			<h:outputLabel for="oid">Name</h:outputLabel>
+			<h:outputLabel for="name">Name</h:outputLabel>
 			<h:inputText id="name" value="#{userBean.name}"></h:inputText>
 			<h:message for="name" />
 			
-			<h:outputLabel for="oid">Surname</h:outputLabel>
+			<h:outputLabel for="surname">Surname</h:outputLabel>
 			<h:inputText id="surname" value="#{userBean.surname}"></h:inputText>
 			<h:message for="surname" />
 		</h:panelGrid>

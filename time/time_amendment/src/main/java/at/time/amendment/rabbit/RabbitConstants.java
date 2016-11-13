@@ -1,4 +1,4 @@
-package at.time.base.rabbit;
+package at.time.amendment.rabbit;
 
 public final class RabbitConstants {
 

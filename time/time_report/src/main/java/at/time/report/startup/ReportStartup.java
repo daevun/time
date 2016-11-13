@@ -2,8 +2,8 @@ package at.time.report.startup;
 
 import java.io.IOException;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,18 +14,18 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
-import at.time.base.rabbit.RabbitConstants;
-import at.time.base.rabbit.RabbitManager;
 import at.time.report.dao.UserDao;
 import at.time.report.model.User;
+import at.time.report.rabbit.RabbitConstants;
+import at.time.report.rabbit.RabbitManager;
 
-@ManagedBean(eager = true)
 @ApplicationScoped
 public class ReportStartup {
 
 	private static Logger logger = LogManager.getLogger();
 
-	public ReportStartup() {
+	@PostConstruct
+	public void postConstruct() {
 		startRabbitConsumer();
 	}
 

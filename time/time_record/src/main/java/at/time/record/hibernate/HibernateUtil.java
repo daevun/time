@@ -1,4 +1,4 @@
-package at.time.user.hibernate;
+package at.time.record.hibernate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

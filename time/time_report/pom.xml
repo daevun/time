@@ -10,11 +10,19 @@
 	<packaging>war</packaging>
 	<name>Time Report</name>
 	<description>Report project for Time application</description>
-	<dependencies>
-		<dependency>
-			<groupId>at</groupId>
-			<artifactId>time_base</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8080/report</url>
+					<server>TomcatReport</server>
+					<username>report</username>
+					<password>timereport</password>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

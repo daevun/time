@@ -2,8 +2,8 @@ package at.time.amendment.model;
 
 import java.util.Date;
 
-import at.time.base.rabbit.Publishable;
-import at.time.base.rabbit.RabbitConstants;
+import at.time.amendment.rabbit.Publishable;
+import at.time.amendment.rabbit.RabbitConstants;
 
 /**
  * Record Model for Amendment Project

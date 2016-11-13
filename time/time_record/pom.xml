@@ -10,11 +10,19 @@
 	<packaging>war</packaging>
 	<name>Time Record</name>
 	<description>Record project for Time Application</description>
-	<dependencies>
-		<dependency>
-			<groupId>at</groupId>
-			<artifactId>time_base</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8080/record</url>
+					<server>TomcatRecord</server>
+					<username>record</username>
+					<password>timerecord</password>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

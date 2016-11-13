@@ -1,4 +1,4 @@
-package at.time.base.rabbit;
+package at.time.amendment.rabbit;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -36,14 +36,8 @@ public class RabbitManager {
 			try {
 				channel = connection.createChannel();
 				channel.exchangeDeclare(RabbitConstants.TIME_EXCHANGE, RabbitConstants.DIRECT, true);
-				final String report = channel.queueDeclare(RabbitConstants.REPORT_QUEUE, true, false, false, null)
-						.getQueue();
-				final String record = channel.queueDeclare(RabbitConstants.RECORD_QUEUE, true, false, false, null)
-						.getQueue();
 				final String amendment = channel.queueDeclare(RabbitConstants.AMENDMENT_QUEUE, true, false, false, null)
 						.getQueue();
-				channel.queueBind(report, RabbitConstants.TIME_EXCHANGE, "");
-				channel.queueBind(record, RabbitConstants.TIME_EXCHANGE, "");
 				channel.queueBind(amendment, RabbitConstants.TIME_EXCHANGE, "");
 			} catch (final IOException e) {
 				logger.error("Fehler beim Erstellen des Channels für RabbitMQ", e.getMessage());
@@ -59,11 +53,10 @@ public class RabbitManager {
 			factory.setPort(RabbitConstants.PORT);
 			try {
 				connection = factory.newConnection();
-			} catch (IOException | TimeoutException e) {
+			} catch (final IOException | TimeoutException e) {
 				logger.error("Fehler beim Erstellen der Connection für RabbitMQ", e.getMessage());
 			}
 		}
 		return connection;
 	}
-
 }

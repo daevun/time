@@ -10,11 +10,4 @@
 	<packaging>war</packaging>
 	<name>Time Amendment</name>
 	<description>Amendment project for Time application</description>
-	<dependencies>
-		<dependency>
-			<groupId>at</groupId>
-			<artifactId>time_base</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
 </project>

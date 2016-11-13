@@ -112,7 +112,7 @@
 		<module>time_amendment</module>
 		<module>time_report</module>
 		<module>time_record</module>
-		<module>time_base</module>
+		
 	</modules>
 	<build>
 		<plugins>

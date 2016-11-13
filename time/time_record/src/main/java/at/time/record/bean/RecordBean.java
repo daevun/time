@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -14,8 +13,7 @@ import at.time.record.model.User;
 import at.time.record.services.RecordService;
 import at.time.record.services.UserService;
 
-@ManagedBean
-@ViewScoped
+@RequestScoped
 @Named
 public class RecordBean implements Serializable {
 
@@ -37,7 +35,7 @@ public class RecordBean implements Serializable {
 
 	public void addRecord() {
 		final Record record = recordService.createRecord();
-		record.setUser(userService.getByOid(getUser().getOid()));
+		record.setUser(getUser());
 		record.setBegin(getBegin());
 		record.setEnd(getEnd());
 		recordService.saveRecord(record);

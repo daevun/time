@@ -7,9 +7,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import at.time.base.rabbit.RabbitManager;
 import at.time.user.dao.UserDao;
 import at.time.user.model.User;
+import at.time.user.rabbit.RabbitManager;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -33,9 +33,10 @@ public class UserServiceTest {
 
 	private User createUser() {
 		final User user = service.createUser();
-		user.setOid("1111");
+		user.setOid(1111L);
 		user.setName("Test");
 		user.setSurname("Tester");
+		user.setSozVers("081501011990");
 		return user;
 	}
 

@@ -1,4 +1,4 @@
-package at.time.base.rabbit;
+package at.time.user.rabbit;
 
 import com.google.gson.Gson;
 

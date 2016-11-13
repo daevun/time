@@ -1,13 +1,13 @@
 package at.time.user.startup;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Observes;
 
-@ManagedBean(eager = true)
 @ApplicationScoped
 public class UserStartup {
 
-	public UserStartup() {
+	public void postConstruct(@Observes @Initialized(ApplicationScoped.class) Object init) {
 		// noop
 	}
 
