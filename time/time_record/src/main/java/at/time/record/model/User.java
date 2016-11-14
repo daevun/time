@@ -1,8 +1,13 @@
 package at.time.record.model;
 
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,7 +19,7 @@ public class User {
 
 	@Id
 	@Column(name = "oid", unique = true, nullable = false)
-	private String oid;
+	private Long oid;
 
 	@Column(name = "name", length = 45)
 	private String name;
@@ -25,11 +30,14 @@ public class User {
 	@Column(name = "sozVers", length = 12)
 	private String sozVers;
 
-	public String getOid() {
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	private Collection<Record> records;
+
+	public Long getOid() {
 		return oid;
 	}
 
-	public void setOid(final String oid) {
+	public void setOid(final Long oid) {
 		this.oid = oid;
 	}
 
@@ -57,9 +65,17 @@ public class User {
 		this.sozVers = sozVers;
 	}
 
+	public Collection<Record> getRecords() {
+		return records;
+	}
+
+	public void setRecords(Collection<Record> records) {
+		this.records = records;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("%s %s SV-Nr.%s", getName(), getSurname(), getOid());
+		return String.format("%s %s SV-Nr.: %s", getName(), getSurname(), getSozVers());
 	}
 
 	@Override

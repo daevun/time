@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -33,12 +35,15 @@ public class RecordBean implements Serializable {
 		return userService.getAllUser();
 	}
 
-	public void addRecord() {
+	public String addRecord() {
 		final Record record = recordService.createRecord();
 		record.setUser(getUser());
 		record.setBegin(getBegin());
 		record.setEnd(getEnd());
+		getUser().getRecords().add(record);
 		recordService.saveRecord(record);
+		final UIViewRoot view = FacesContext.getCurrentInstance().getViewRoot();
+		return view.getViewId() + "?faces-redirect=true";
 	}
 
 	public Date getBegin() {

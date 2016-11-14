@@ -27,7 +27,7 @@ public class RabbitManager {
 	public void publish(final Publishable publishable) {
 		final Channel channel = getChannel();
 		final AMQP.BasicProperties.Builder basicProperties = new AMQP.BasicProperties.Builder();
-		basicProperties.contentType("user");
+		basicProperties.contentType(publishable.contentType());
 		try {
 			channel.basicPublish(RabbitConstants.TIME_EXCHANGE, "", basicProperties.build(),
 					publishable.toGson().getBytes());

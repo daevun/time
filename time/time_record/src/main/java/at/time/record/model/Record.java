@@ -2,10 +2,20 @@ package at.time.record.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import com.google.gson.GsonBuilder;
+
+import at.time.record.gson.RecordSerializer;
 import at.time.record.rabbit.Publishable;
 import at.time.record.rabbit.RabbitConstants;
 
@@ -16,13 +26,20 @@ import at.time.record.rabbit.RabbitConstants;
 @Table(name = "record")
 public class Record implements Publishable {
 
-	@Column(name = "user")
+	@Id
+	@Column(name = "oid", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long oid;
+
+	@ManyToOne(cascade = { CascadeType.ALL })
 	private User user;
 
-	@Column(name = "begin")
+	@Column(name = "begin", columnDefinition = "DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date begin;
 
-	@Column(name = "end")
+	@Column(name = "end", columnDefinition = "DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date end;
 
 	public User getUser() {
@@ -47,6 +64,20 @@ public class Record implements Publishable {
 
 	public void setEnd(Date end) {
 		this.end = end;
+	}
+
+	public Long getOid() {
+		return oid;
+	}
+
+	public void setOid(Long oid) {
+		this.oid = oid;
+	}
+
+	@Override
+	public String toGson() {
+		return new GsonBuilder().registerTypeAdapter(Record.class, new RecordSerializer()).setPrettyPrinting().create()
+				.toJson(this);
 	}
 
 	@Override

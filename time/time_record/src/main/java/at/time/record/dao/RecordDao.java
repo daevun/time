@@ -1,5 +1,6 @@
 package at.time.record.dao;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import at.time.record.hibernate.HibernateUtil;
@@ -13,6 +14,16 @@ public class RecordDao {
 			session.save(record);
 			session.getTransaction().commit();
 		}
+	}
+
+	public Record getByOid(final Long oid) {
+		Record record = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			session.beginTransaction();
+			record = session.get(Record.class, oid);
+			Hibernate.initialize(record);
+		}
+		return record;
 	}
 
 }

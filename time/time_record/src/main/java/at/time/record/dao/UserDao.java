@@ -15,7 +15,7 @@ import at.time.record.model.User;
 
 public class UserDao {
 
-	public User getByOid(final String oid) {
+	public User getByOid(final Long oid) {
 		User user = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			session.beginTransaction();

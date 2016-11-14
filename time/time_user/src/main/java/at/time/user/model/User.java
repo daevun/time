@@ -65,7 +65,7 @@ public class User implements Publishable {
 
 	@Override
 	public String toString() {
-		return String.format("User: %s %s %s", getOid(), getName(), getSurname());
+		return String.format("%s %s SV-Nr.: %s", getName(), getSurname(), getSozVers());
 	}
 
 	@Override
