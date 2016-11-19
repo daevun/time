@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 
 import com.google.gson.GsonBuilder;
 
-import at.time.record.gson.RecordSerializer;
+import at.time.record.gson.UserSerializer;
 import at.time.record.rabbit.Publishable;
 import at.time.record.rabbit.RabbitConstants;
 
@@ -76,7 +76,7 @@ public class Record implements Publishable {
 
 	@Override
 	public String toGson() {
-		return new GsonBuilder().registerTypeAdapter(Record.class, new RecordSerializer()).setPrettyPrinting().create()
+		return new GsonBuilder().registerTypeAdapter(User.class, new UserSerializer()).setPrettyPrinting().create()
 				.toJson(this);
 	}
 

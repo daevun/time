@@ -3,6 +3,8 @@ package at.time.record.rabbit;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import javax.inject.Inject;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +22,9 @@ import at.time.record.model.User;
 public class RabbitManager {
 
 	private static Logger logger = LogManager.getLogger();
+
+	@Inject
+	private UserDao userDao;
 
 	private Connection connection;
 	private Channel channel;
@@ -39,7 +44,6 @@ public class RabbitManager {
 	public void startConsumer() {
 		final Channel channel = getChannel();
 		final boolean autoAck = false;
-		final UserDao userDao = new UserDao();
 		try {
 			final String record = channel.queueDeclare(RabbitConstants.RECORD_QUEUE, true, false, false, null)
 					.getQueue();
@@ -54,8 +58,6 @@ public class RabbitManager {
 					case RabbitConstants.CT_USER:
 						logger.info(" [x] Received '" + message + "'" + " Saving new User..");
 						userDao.saveUser(new Gson().fromJson(message, User.class));
-						break;
-					case RabbitConstants.CT_RECORD:
 						break;
 					default:
 						break;

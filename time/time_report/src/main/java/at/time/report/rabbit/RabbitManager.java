@@ -3,42 +3,84 @@ package at.time.report.rabbit;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import javax.inject.Inject;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+
+import at.time.report.dao.RecordDao;
+import at.time.report.dao.UserDao;
+import at.time.report.gson.UserDeserializer;
+import at.time.report.model.Record;
+import at.time.report.model.User;
 
 public class RabbitManager {
 
 	private static Logger logger = LogManager.getLogger();
 
+	@Inject
+	private UserDao userDao;
+
+	@Inject
+	private RecordDao recordDao;
+
+	@Inject
+	private UserDeserializer userDeserializer;
+
 	private Connection connection;
 	private Channel channel;
 
-	public void publish(final Publishable publishable) {
+	public void startConsumer() {
 		final Channel channel = getChannel();
-		final AMQP.BasicProperties.Builder basicProperties = new AMQP.BasicProperties.Builder();
-		basicProperties.contentType("user");
+		final boolean autoAck = false;
 		try {
-			channel.basicPublish(RabbitConstants.TIME_EXCHANGE, "", basicProperties.build(),
-					publishable.toGson().getBytes());
+			final String record = channel.queueDeclare(RabbitConstants.REPORT_QUEUE, true, false, false, null)
+					.getQueue();
+			channel.queueBind(record, RabbitConstants.TIME_EXCHANGE, "");
+			channel.basicConsume(RabbitConstants.REPORT_QUEUE, autoAck, "myConsumerTag", new DefaultConsumer(channel) {
+				@Override
+				public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+						byte[] body) throws IOException {
+					final String contentType = properties.getContentType();
+					final String message = new String(body, "UTF-8");
+					switch (contentType) {
+					case RabbitConstants.CT_USER:
+						logger.info(" [x] Received '" + message + "'" + " Saving new User..");
+						userDao.saveUser(new Gson().fromJson(message, User.class));
+						break;
+					case RabbitConstants.CT_RECORD:
+						logger.info(" [x] Received '" + message + "'" + " Saving new Record..");
+						recordDao.saveRecord(new GsonBuilder().registerTypeAdapter(User.class, userDeserializer)
+								.setPrettyPrinting().create().fromJson(message, Record.class));
+						break;
+					default:
+						break;
+					}
+
+					final long deliveryTag = envelope.getDeliveryTag();
+					channel.basicAck(deliveryTag, false);
+				}
+			});
 		} catch (final IOException e) {
-			logger.error("Fehler beim Verschicken der Nachricht: ", publishable.toGson());
+			logger.error("Fehler beim Initialisieren vom RabbitMQ Consumer", e.getMessage());
 		}
 	}
 
-	public Channel getChannel() {
+	private Channel getChannel() {
 		if (channel == null) {
 			final Connection connection = getConnection();
 			try {
 				channel = connection.createChannel();
 				channel.exchangeDeclare(RabbitConstants.TIME_EXCHANGE, RabbitConstants.DIRECT, true);
-				final String report = channel.queueDeclare(RabbitConstants.REPORT_QUEUE, true, false, false, null)
-						.getQueue();
-				channel.queueBind(report, RabbitConstants.TIME_EXCHANGE, "");
 			} catch (final IOException e) {
 				logger.error("Fehler beim Erstellen des Channels für RabbitMQ", e.getMessage());
 			}
