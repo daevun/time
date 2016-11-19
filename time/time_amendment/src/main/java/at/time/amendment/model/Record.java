@@ -2,25 +2,42 @@ package at.time.amendment.model;
 
 import java.util.Date;
 
-import at.time.amendment.rabbit.Publishable;
-import at.time.amendment.rabbit.RabbitConstants;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Record Model for Amendment Project
  */
-public class Record implements Publishable {
+@Entity
+@Table(name = "record")
+public class Record {
 
+	@Id
+	@Column(name = "oid", unique = true, nullable = false)
+	private Long oid;
+
+	@ManyToOne(cascade = { CascadeType.ALL })
 	private User user;
 
+	@Column(name = "begin", columnDefinition = "DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date begin;
 
+	@Column(name = "end", columnDefinition = "DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date end;
 
 	public User getUser() {
 		return user;
 	}
 
-	public void setUser(final User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
@@ -28,7 +45,7 @@ public class Record implements Publishable {
 		return begin;
 	}
 
-	public void setBegin(final Date begin) {
+	public void setBegin(Date begin) {
 		this.begin = begin;
 	}
 
@@ -36,13 +53,16 @@ public class Record implements Publishable {
 		return end;
 	}
 
-	public void setEnd(final Date end) {
+	public void setEnd(Date end) {
 		this.end = end;
 	}
 
-	@Override
-	public String contentType() {
-		return RabbitConstants.CT_RECORD;
+	public Long getOid() {
+		return oid;
+	}
+
+	public void setOid(Long oid) {
+		this.oid = oid;
 	}
 
 }
