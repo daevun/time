@@ -1,7 +1,11 @@
 package at.time.report.dao;
 
+import java.util.List;
+
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+
+import com.google.common.collect.Lists;
 
 import at.time.report.hibernate.HibernateUtil;
 import at.time.report.model.User;
@@ -24,6 +28,16 @@ public class UserDao {
 			Hibernate.initialize(user);
 		}
 		return user;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<User> getAll() {
+		List<User> users = Lists.newArrayList();
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			session.beginTransaction();
+			users = session.createCriteria(User.class).list();
+		}
+		return users;
 	}
 
 }

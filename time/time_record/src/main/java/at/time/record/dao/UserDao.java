@@ -2,9 +2,6 @@ package at.time.record.dao;
 
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
@@ -25,14 +22,12 @@ public class UserDao {
 		return user;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<User> getAll() {
 		List<User> users = Lists.newArrayList();
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			session.beginTransaction();
-			final CriteriaQuery<User> query = session.getCriteriaBuilder().createQuery(User.class);
-			final Root<User> root = query.from(User.class);
-			query.select(root);
-			users = session.createQuery(query).getResultList();
+			users = session.createCriteria(User.class).list();
 		}
 		return users;
 	}

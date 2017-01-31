@@ -25,11 +25,11 @@ public class Record {
 	@ManyToOne(cascade = { CascadeType.ALL })
 	private User user;
 
-	@Column(name = "begin", columnDefinition = "DATETIME")
+	@Column(name = "begin")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date begin;
 
-	@Column(name = "end", columnDefinition = "DATETIME")
+	@Column(name = "end")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date end;
 
@@ -37,7 +37,7 @@ public class Record {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(final User user) {
 		this.user = user;
 	}
 
@@ -45,7 +45,7 @@ public class Record {
 		return begin;
 	}
 
-	public void setBegin(Date begin) {
+	public void setBegin(final Date begin) {
 		this.begin = begin;
 	}
 
@@ -53,7 +53,7 @@ public class Record {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(final Date end) {
 		this.end = end;
 	}
 
@@ -61,7 +61,7 @@ public class Record {
 		return oid;
 	}
 
-	public void setOid(Long oid) {
+	public void setOid(final Long oid) {
 		this.oid = oid;
 	}
 

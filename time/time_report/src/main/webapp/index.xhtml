@@ -2,10 +2,44 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
-<body>
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<h:head>
+		<title>Time Report</title>
+	</h:head>
 	<h2>Time Report</h2>
-</body>
+	<h:form id="recordForm">
+		<p:outputLabel for="users">User</p:outputLabel>
+		<p:selectOneMenu id="users" value="#{reportBean.user}"
+			converter="omnifaces.SelectItemsConverter">
+			<f:selectItem itemLabel="" itemValue="" />
+			<f:selectItems value="#{reportBean.allUsers}" />
+		</p:selectOneMenu>
 
+		<p:outputLabel for="begin">Begin</p:outputLabel>
+		<p:calendar id="begin" value="#{reportBean.begin}"
+			pattern="dd.MM.yyyy HH:mm" locale="de" navigator="true" />
+
+		<p:outputLabel for="end">End</p:outputLabel>
+		<p:calendar id="end" value="#{reportBean.end}"
+			pattern="dd.MM.yyyy HH:mm" locale="de" navigator="true" />
+
+		<p:commandButton value="Search"
+			actionListener="#{reportBean.populateRecords()}" update=":recordForm:records" />
+
+		<p:dataTable id="records" var="record" value="#{reportBean.records}">
+			<p:column headerText="User">
+				<h:outputText value="#{record.user}" />
+			</p:column>
+			<p:column headerText="Begin">
+				<h:outputText value="#{record.begin}" />
+			</p:column>
+			<p:column headerText="End">
+				<h:outputText value="#{record.end}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
 </html>
