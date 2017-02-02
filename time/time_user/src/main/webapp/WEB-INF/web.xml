@@ -40,6 +40,67 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
+
+
+ 	<servlet-mapping>
+        <servlet-name>resteasy-servlet</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+    <context-param>
+        <param-name>resteasy.scan</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>resteasy.servlet.mapping.prefix</param-name>
+        <param-value>/rest</param-value>
+    </context-param>
+    <listener>
+        <listener-class>
+            org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+            </listener-class>
+    </listener>
+    
+    <servlet>
+        <servlet-name>resteasy-servlet</servlet-name>
+        <servlet-class>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+        </servlet-class>
+    </servlet>
+
+
+
+
+
+
+
+
+
+
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>UserApplication</servlet-name> -->
+<!-- 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>javax.ws.rs.Application</param-name> -->
+<!-- 			<param-value>at.time.user.binder.UserApplication</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>UserApplication</servlet-name> -->
+<!-- 		<url-pattern>/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+
+
+
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>javax.ws.rs.core.Application</servlet-name> -->
+<!-- 	</servlet> -->
+
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>javax.ws.rs.core.Application</servlet-name> -->
+<!-- 		<url-pattern>/rest/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+
 	<resource-env-ref>
 		<resource-env-ref-name>BeanManager</resource-env-ref-name>
 		<resource-env-ref-type>javax.enterprise.inject.spi.BeanManager</resource-env-ref-type>
