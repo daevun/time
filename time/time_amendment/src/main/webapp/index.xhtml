@@ -2,10 +2,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
-<body>
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<h:head>
+		<title>Time Amendment</title>
+	</h:head>
 	<h2>Time Amendment</h2>
-</body>
-
+	<h:form id="recordForm">
+		<p:growl id="msgs" showDetail="true" />
+		<p:commandButton value="Refresh"
+			actionListener="#{amendmentBean.refreshRecords()}"
+			update=":recordForm:records" />
+		<p:dataTable id="records" var="record"
+			value="#{amendmentBean.records}" editable="true">
+			<p:ajax event="rowEdit" listener="#{amendmentBean.onRowEdit}"
+				update=":recordForm:msgs" />
+			<p:ajax event="rowEditCancel" listener="#{amendmentBean.onRowCancel}"
+				update=":recordForm:msgs" />
+			<p:column headerText="User" filterBy="#{record.user.sozVers}"
+				filterMatchMode="contains">
+				<h:outputText value="#{record.user}" />
+			</p:column>
+			<p:column headerText="Begin">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{record.begin}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:calendar id="beginInput" value="#{record.begin}"
+							pattern="dd.MM.yyyy HH:mm" locale="de" navigator="true" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="End">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{record.end}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:calendar id="endInput" value="#{record.end}"
+							pattern="dd.MM.yyyy HH:mm" locale="de" navigator="true" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
 </html>

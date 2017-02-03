@@ -2,7 +2,6 @@ package at.time.report.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,7 +21,7 @@ public class Record {
 	@Column(name = "oid", unique = true, nullable = false)
 	private Long oid;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	private User user;
 
 	@Column(name = "begin")

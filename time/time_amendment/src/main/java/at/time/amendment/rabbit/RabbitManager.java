@@ -39,6 +39,18 @@ public class RabbitManager {
 	private Connection connection;
 	private Channel channel;
 
+	public void publish(final Publishable publishable) {
+		final Channel channel = getChannel();
+		final AMQP.BasicProperties.Builder basicProperties = new AMQP.BasicProperties.Builder();
+		basicProperties.contentType(publishable.contentType());
+		try {
+			channel.basicPublish(RabbitConstants.TIME_EXCHANGE, "", basicProperties.build(),
+					publishable.toGson().getBytes());
+		} catch (final IOException e) {
+			logger.error("Fehler beim Verschicken der Nachricht: ", publishable.toGson());
+		}
+	}
+
 	public void startConsumer() {
 		final Channel channel = getChannel();
 		final boolean autoAck = false;
@@ -46,30 +58,31 @@ public class RabbitManager {
 			final String record = channel.queueDeclare(RabbitConstants.AMENDMENT_QUEUE, true, false, false, null)
 					.getQueue();
 			channel.queueBind(record, RabbitConstants.TIME_EXCHANGE, "");
-			channel.basicConsume(RabbitConstants.AMENDMENT_QUEUE, autoAck, "myConsumerTag", new DefaultConsumer(channel) {
-				@Override
-				public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
-						byte[] body) throws IOException {
-					final String contentType = properties.getContentType();
-					final String message = new String(body, "UTF-8");
-					switch (contentType) {
-					case RabbitConstants.CT_USER:
-						logger.info(" [x] Received '" + message + "'" + " Saving new User..");
-						userDao.saveUser(new Gson().fromJson(message, User.class));
-						break;
-					case RabbitConstants.CT_RECORD:
-						logger.info(" [x] Received '" + message + "'" + " Saving new Record..");
-						recordDao.saveRecord(new GsonBuilder().registerTypeAdapter(User.class, userDeserializer)
-								.setPrettyPrinting().create().fromJson(message, Record.class));
-						break;
-					default:
-						break;
-					}
+			channel.basicConsume(RabbitConstants.AMENDMENT_QUEUE, autoAck, "myConsumerTag",
+					new DefaultConsumer(channel) {
+						@Override
+						public void handleDelivery(final String consumerTag, final Envelope envelope,
+								final AMQP.BasicProperties properties, final byte[] body) throws IOException {
+							final String contentType = properties.getContentType();
+							final String message = new String(body, "UTF-8");
+							switch (contentType) {
+							case RabbitConstants.CT_USER:
+								logger.info(" [x] Received '" + message + "'" + " Saving new User..");
+								userDao.saveUser(new Gson().fromJson(message, User.class));
+								break;
+							case RabbitConstants.CT_RECORD:
+								logger.info(" [x] Received '" + message + "'" + " Saving new Record..");
+								recordDao.saveRecord(new GsonBuilder().registerTypeAdapter(User.class, userDeserializer)
+										.setPrettyPrinting().create().fromJson(message, Record.class));
+								break;
+							default:
+								break;
+							}
 
-					final long deliveryTag = envelope.getDeliveryTag();
-					channel.basicAck(deliveryTag, false);
-				}
-			});
+							final long deliveryTag = envelope.getDeliveryTag();
+							channel.basicAck(deliveryTag, false);
+						}
+					});
 		} catch (final IOException e) {
 			logger.error("Fehler beim Initialisieren vom RabbitMQ Consumer", e.getMessage());
 		}

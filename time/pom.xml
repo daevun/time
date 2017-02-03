@@ -7,14 +7,6 @@
 	<packaging>pom</packaging>
 	<name>Time</name>
 	<description>Campus 02 IWI16 IEG Project</description>
-	<repositories>
-		<repository>
-			<id>prime-repo</id>
-			<name>PrimeFaces Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
 	<properties>
 		<jersey2.version>2.24.1</jersey2.version>
 		<jaxrs.version>2.0.1</jaxrs.version>
@@ -71,7 +63,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>3.5</version>
+			<version>6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>

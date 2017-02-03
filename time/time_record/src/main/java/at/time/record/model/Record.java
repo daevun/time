@@ -2,7 +2,6 @@ package at.time.record.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +30,7 @@ public class Record implements Publishable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long oid;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	private User user;
 
 	@Column(name = "begin", columnDefinition = "DATETIME")
@@ -46,7 +45,7 @@ public class Record implements Publishable {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(final User user) {
 		this.user = user;
 	}
 
@@ -54,7 +53,7 @@ public class Record implements Publishable {
 		return begin;
 	}
 
-	public void setBegin(Date begin) {
+	public void setBegin(final Date begin) {
 		this.begin = begin;
 	}
 
@@ -62,7 +61,7 @@ public class Record implements Publishable {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(final Date end) {
 		this.end = end;
 	}
 
@@ -70,7 +69,7 @@ public class Record implements Publishable {
 		return oid;
 	}
 
-	public void setOid(Long oid) {
+	public void setOid(final Long oid) {
 		this.oid = oid;
 	}
 

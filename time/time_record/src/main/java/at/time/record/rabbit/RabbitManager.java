@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -16,7 +17,10 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
+import at.time.record.dao.RecordDao;
 import at.time.record.dao.UserDao;
+import at.time.record.gson.UserDeserializer;
+import at.time.record.model.Record;
 import at.time.record.model.User;
 
 public class RabbitManager {
@@ -25,6 +29,12 @@ public class RabbitManager {
 
 	@Inject
 	private UserDao userDao;
+
+	@Inject
+	private RecordDao recordDao;
+
+	@Inject
+	private UserDeserializer userDeserializer;
 
 	private Connection connection;
 	private Channel channel;
@@ -50,14 +60,19 @@ public class RabbitManager {
 			channel.queueBind(record, RabbitConstants.TIME_EXCHANGE, "");
 			channel.basicConsume(RabbitConstants.RECORD_QUEUE, autoAck, "myConsumerTag", new DefaultConsumer(channel) {
 				@Override
-				public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
-						byte[] body) throws IOException {
+				public void handleDelivery(final String consumerTag, final Envelope envelope,
+						final AMQP.BasicProperties properties, final byte[] body) throws IOException {
 					final String contentType = properties.getContentType();
 					final String message = new String(body, "UTF-8");
 					switch (contentType) {
 					case RabbitConstants.CT_USER:
 						logger.info(" [x] Received '" + message + "'" + " Saving new User..");
 						userDao.saveUser(new Gson().fromJson(message, User.class));
+						break;
+					case RabbitConstants.CT_RECORD:
+						logger.info(" [x] Received '" + message + "'" + " Saving new Record..");
+						recordDao.saveRecord(new GsonBuilder().registerTypeAdapter(User.class, userDeserializer)
+								.setPrettyPrinting().create().fromJson(message, Record.class));
 						break;
 					default:
 						break;
