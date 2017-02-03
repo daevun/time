@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 
 import at.time.user.dao.UserDao;
 import at.time.user.model.User;
-import at.time.user.services.UserService;
+import at.time.user.rabbit.RabbitManager;
 
 @Path("user")
 @RequestScoped
@@ -36,7 +36,8 @@ public class RestService {
 	public Response saveUser(final String gsonUser) {
 		final User user = new Gson().fromJson(gsonUser, User.class);
 		if (user != null) {
-			new UserService().saveUser(user);
+			new UserDao().saveUser(user);
+			new RabbitManager().publish(user);
 			return Response.status(200).entity(user.toGson()).build();
 		}
 		return Response.status(500).entity("Could not create User").build();
