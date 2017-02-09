@@ -36,4 +36,15 @@ public class RecordDao {
 		return records;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Record> getAllBy(final User user) {
+		List<Record> records = Lists.newArrayList();
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			session.beginTransaction();
+			final Criteria criteria = session.createCriteria(Record.class).add(Restrictions.eq("user", user));
+			records = criteria.list();
+		}
+		return records;
+	}
+
 }

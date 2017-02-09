@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import com.google.common.collect.Lists;
 
@@ -38,6 +39,16 @@ public class UserDao {
 			users = session.createCriteria(User.class).list();
 		}
 		return users;
+	}
+
+	public User getBySozVers(final String sozVers) {
+		User user = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			session.beginTransaction();
+			user = (User) session.createCriteria(User.class).add(Restrictions.eq("sozVers", sozVers)).uniqueResult();
+			Hibernate.initialize(user);
+		}
+		return user;
 	}
 
 }

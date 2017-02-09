@@ -16,18 +16,29 @@
 			<h:outputLabel for="sozVers">Sozial Vers-Nr</h:outputLabel>
 			<h:inputText id="sozVers" value="#{userBean.sozVers}" required="true"></h:inputText>
 			<h:message for="sozVers" />
-			
+
 			<h:outputLabel for="name">Name</h:outputLabel>
 			<h:inputText id="name" value="#{userBean.name}"></h:inputText>
 			<h:message for="name" />
-			
+
 			<h:outputLabel for="surname">Surname</h:outputLabel>
 			<h:inputText id="surname" value="#{userBean.surname}"></h:inputText>
 			<h:message for="surname" />
 		</h:panelGrid>
 
 		<h:commandButton action="#{userBean.createUser}" value="Create User"></h:commandButton>
+
+
 	</h:form>
+	<h:form>
+		<h:outputLabel for="externalUser">External User</h:outputLabel>
+		<h:inputText id="externalUser" value="#{userBean.externalUser}"
+			required="true"></h:inputText>
+		<h:message for="externalUser" />
+		<h:commandButton action="#{userBean.getAndSaveExternalUser()}"
+			value="Get External User"></h:commandButton>
+	</h:form>
+
 
 </body>
 

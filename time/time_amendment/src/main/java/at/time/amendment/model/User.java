@@ -30,7 +30,7 @@ public class User {
 	@Column(name = "sozVers", length = 12)
 	private String sozVers;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private Collection<Record> records;
 
 	public Long getOid() {
@@ -53,7 +53,7 @@ public class User {
 		return surname;
 	}
 
-	public void setSurname(String surname) {
+	public void setSurname(final String surname) {
 		this.surname = surname;
 	}
 
@@ -61,7 +61,7 @@ public class User {
 		return sozVers;
 	}
 
-	public void setSozVers(String sozVers) {
+	public void setSozVers(final String sozVers) {
 		this.sozVers = sozVers;
 	}
 
@@ -69,7 +69,7 @@ public class User {
 		return records;
 	}
 
-	public void setRecords(Collection<Record> records) {
+	public void setRecords(final Collection<Record> records) {
 		this.records = records;
 	}
 
@@ -79,7 +79,7 @@ public class User {
 	}
 
 	@Override
-	public boolean equals(Object arg0) {
+	public boolean equals(final Object arg0) {
 		return (arg0 != null && getOid() != null && arg0.getClass().isAssignableFrom(getClass())
 				&& getClass().isAssignableFrom(arg0.getClass())) ? getOid().equals(((User) arg0).getOid())
 						: (arg0 == this);
