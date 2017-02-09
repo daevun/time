@@ -21,8 +21,10 @@ public class UserService {
 	}
 
 	public void saveUser(final User user) {
-		userDao.saveUser(user);
-		rabbit.publish(user);
+		if (userDao.getBySozVers(user.getSozVers()) == null) {
+			userDao.saveUser(user);
+			rabbit.publish(user);
+		}
 	}
 
 }

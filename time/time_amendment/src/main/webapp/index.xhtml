@@ -28,7 +28,8 @@
 			<p:column headerText="Begin">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{record.begin}" />
+						<p:calendar id="beginOutput" value="#{record.begin}"
+							pattern="dd.MM.yyyy HH:mm" locale="de" navigator="true" />
 					</f:facet>
 					<f:facet name="input">
 						<p:calendar id="beginInput" value="#{record.begin}"
@@ -39,7 +40,8 @@
 			<p:column headerText="End">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{record.end}" />
+						<p:calendar id="endOutput" value="#{record.end}"
+							pattern="dd.MM.yyyy HH:mm" locale="de" navigator="true" />
 					</f:facet>
 					<f:facet name="input">
 						<p:calendar id="endInput" value="#{record.end}"

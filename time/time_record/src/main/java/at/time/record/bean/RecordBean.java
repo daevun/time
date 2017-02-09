@@ -2,13 +2,15 @@ package at.time.record.bean;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import com.google.common.collect.Sets;
 
 import at.time.record.model.Record;
 import at.time.record.model.User;
@@ -31,8 +33,8 @@ public class RecordBean implements Serializable {
 	private Date end;
 	private User user;
 
-	public List<User> getAllUsers() {
-		return userService.getAllUser();
+	public Set<User> getAllUsers() {
+		return Sets.newHashSet(userService.getAllUser());
 	}
 
 	public String addRecord() {

@@ -30,7 +30,7 @@ public class User {
 	@Column(name = "sozVers", length = 12)
 	private String sozVers;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	private Collection<Record> records;
 
 	public Long getOid() {

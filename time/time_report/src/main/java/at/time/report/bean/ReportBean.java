@@ -3,6 +3,7 @@ package at.time.report.bean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import at.time.report.model.Record;
 import at.time.report.model.User;
 import at.time.report.service.RecordService;
 import at.time.report.service.UserService;
+import jersey.repackaged.com.google.common.collect.Sets;
 
 @RequestScoped
 @Named
@@ -32,8 +34,8 @@ public class ReportBean implements Serializable {
 	private User user;
 	private List<Record> records;
 
-	public List<User> getAllUsers() {
-		return userService.getAllUser();
+	public Set<User> getAllUsers() {
+		return Sets.newHashSet(userService.getAllUser());
 	}
 
 	public void populateRecords() {
